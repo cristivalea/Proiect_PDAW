@@ -1,10 +1,7 @@
 """
-WSGI config for Magazin_Online project.
+WSGI config for Magazin_Online_V2 project.
 
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
+Expune obiectul WSGI ca variabilă de modul, numit `application`.
 """
 
 import os

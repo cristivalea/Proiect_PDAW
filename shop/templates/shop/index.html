@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Magazin Laptopuri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #005eff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #0041cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bine ai venit la Magazinul de Laptopuri!</h1>
+
+    <p>Vrei să creezi un cont? Apasă pe butonul de mai jos:</p>
+    <a href="{% url 'register' %}" class="btn">Înregistrează-te</a>
+</body>
+</html>
