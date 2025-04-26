@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Magazin Electronice</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #d50000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        p {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Autentificare</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Utilizator" required>
+            <input type="password" name="password" placeholder="Parolă" required>
+
+            <!-- Checkbox pentru "Ține-mă minte" -->
+            <div>
+                <input type="checkbox" id="remember_me" name="remember_me">
+                <label for="remember_me">Ține-mă minte</label>
+            </div>
+                <button type="submit">Autentifică-te</button>
+        </form>
+
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <p>Nu ai cont? <a href="{% url 'register' %}">Înregistrează-te</a></p>
+    </div>
+</body>
+</html>

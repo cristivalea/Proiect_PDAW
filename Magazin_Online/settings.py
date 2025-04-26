@@ -44,7 +44,9 @@ ROOT_URLCONF = 'Magazin_Online.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'shop' / 'templates'],  # Director template-uri
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -102,3 +104,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'shop/static')]
 # Setări pentru fișiere media (dacă se folosesc imagini)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Durata sesiunii (în secunde) - exemplu: 2 săptămâni
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+
+# Sesiunea să nu expire când închizi browserul
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+

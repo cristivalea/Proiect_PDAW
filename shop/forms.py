@@ -11,3 +11,16 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email']
+
+
+
+from django import forms
+from .models import Laptop
+
+class LaptopForm(forms.ModelForm):
+    #cantitate = forms.IntegerField(min_value=1, label="Cantitate")  # câmp suplimentar, nu în model
+
+    class Meta:
+        model = Laptop
+        exclude = ['nota_produs']  # ascundem nota
+

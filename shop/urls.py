@@ -4,8 +4,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index, name='index'),  # Pagina principală cu lista de laptopuri
-    path('produs/<str:serielaptop>/', views.product_detail, name='product_detail'),  # Detalii despre un laptop
-    path('cart/', views.cart, name='cart'),  # Coșul de cumpărături (temporar simplu)
+    path('login/', views.login_view, name='login'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('register/', views.register, name='register'),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
+
+    path('admin-dashboard/adaugare-laptop/', views.adaugare_laptop, name='adaugare_laptop'),
 ]

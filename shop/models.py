@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import models
 
 class Laptop(models.Model):
@@ -9,7 +8,7 @@ class Laptop(models.Model):
     procesor = models.CharField(max_length=50)
     memorie_ram = models.IntegerField(verbose_name="MemorieRAM")
     stocare = models.IntegerField(verbose_name="Stocare")
-    unitati_masura = models.CharField(max_length=50, verbose_name="UnitateMsură")  # ex: GB sau TB
+    unitati_masura = models.CharField(max_length=50, verbose_name="UnitateMasura")
     gpu = models.CharField(max_length=50, verbose_name="GPU")
     display = models.CharField(max_length=50, verbose_name="Display")
     porturi = models.CharField(max_length=50, verbose_name="Porturi")
@@ -17,10 +16,11 @@ class Laptop(models.Model):
     greutate = models.FloatField(verbose_name="Greutate")
     pret = models.FloatField(verbose_name="Pret")
     nota_produs = models.IntegerField(verbose_name="NotaProdus")
-    # Convertim Disponibilitate din int (1/0) într-un Boolean:
     disponibilitate = models.BooleanField(verbose_name="Disponibilitate")
-    optiune_livrare = models.CharField(max_length=100, verbose_name="OpțiuneLivrare")
+    optiune_livrare = models.CharField(max_length=100, verbose_name="OptiuneLivrare")
+
+    class Meta:
+        db_table = 'laptopuri'
 
     def __str__(self):
         return f"{self.brand} {self.model} - {self.pret} RON"
-

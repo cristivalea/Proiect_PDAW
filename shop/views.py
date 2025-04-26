@@ -54,3 +54,52 @@ def register(request):
         form = CustomUserCreationForm()
 
     return render(request, 'shop/register.html', {'form': form})
+
+
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            if user.is_superuser or user.is_staff:
+                # Dacă este admin sau staff, redirecționează către pagina de admin
+                return redirect('admin_dashboard')  # O pagină specială pentru admini
+            else:
+                # Dacă e utilizator normal
+                return redirect('/')
+        else:
+            # Dacă username sau parola sunt greșite
+            return render(request, 'shop/login.html', {'error': 'Utilizator sau parolă greșită'})
+
+    return render(request, 'shop/login.html')
+
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+@login_required
+@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def admin_dashboard(request):
+    return render(request, 'shop/admin_dashboard.html')
+
+from django.shortcuts import render, redirect
+from .forms import LaptopForm
+
+
+
+def adaugare_laptop(request):
+    if request.method == 'POST':
+        form = LaptopForm(request.POST)
+        if form.is_valid():
+            form.save()  # Salvează laptopul în tabela laptopuri
+            return redirect('admin-dashboard')  # După ce salvezi, redirecționează spre dashboard
+    else:
+        form = LaptopForm()
+
+    return render(request, 'shop/adaugare_laptop.html', {'form': form})
+
