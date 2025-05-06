@@ -100,6 +100,57 @@
             margin-bottom: 10px;
             color: #d50000;
         }
+
+        /* Stiluri pentru opțiunile din meniul de administrare */
+        .menu-item a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            display: inline-block;
+            margin: 5px 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .menu-item a:hover {
+            background-color: #ffcccc;
+            color: #d50000;
+        }
+
+        .menu-item a:active {
+            transform: scale(0.98);
+        }
+
+        /* Stil pentru butonul de ștergere laptop */
+        button[type="submit"] {
+            background-color: #d50000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #c40000;
+        }
+
+        /* Input pentru căutare laptop */
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            width: 80%;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #d50000;
+        }
     </style>
 </head>
 <body>
@@ -119,19 +170,36 @@
     </nav>
 
     <main>
-        <h1>Zona de administrare</h1>
+    <h1>Zona de administrare</h1>
 
-        <div class="menu-grid">
-            <a href="{% url 'adaugare_laptop' %}" class="menu-item">
-                <i class="fas fa-laptop"></i><br>Adaugă Laptop
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-mobile-alt"></i><br>Adaugă Telefon
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-tablet-alt"></i><br>Adaugă Tabletă
-            </a>
+    <div class="menu-grid">
+        <!-- Meniu Laptopuri -->
+        <div class="menu-item">
+            <i class="fas fa-laptop"></i><br><strong>Laptopuri</strong><br><br>
+            <a href="{% url 'adaugare_laptop' %}">Adaugă Laptop</a><br>
+{#            <a href="{% url 'stergere_laptop' %}">Șterge Laptop</a><br>#}
+            <a href="{% url 'cautare_laptop' %}">Caută Laptop</a><br>
+{#            <a href="{% url 'modificare_laptop' serielaptop='exemplu123' %}">Modifică Laptop</a>#}
         </div>
-    </main>
+
+{#        <!-- Meniu Telefoane -->#}
+{#        <div class="menu-item">#}
+{#            <i class="fas fa-mobile-alt"></i><br><strong>Telefoane</strong><br><br>#}
+{#            <a href="{% url 'adaugare_telefon' %}">Adaugă Telefon</a><br>#}
+{#            <a href="{% url 'stergere_telefon' %}">Șterge Telefon</a><br>#}
+{#            <a href="{% url 'cautare_telefon' %}">Caută Telefon</a><br>#}
+{#            <a href="{% url 'modificare_telefon' %}">Modifică Telefon</a>#}
+{#        </div>#}
+
+{#        <!-- Meniu Tablete -->#}
+{#        <div class="menu-item">#}
+{#            <i class="fas fa-tablet-alt"></i><br><strong>Tablete</strong><br><br>#}
+{#            <a href="{% url 'adaugare_tableta' %}">Adaugă Tabletă</a><br>#}
+{#            <a href="{% url 'stergere_tableta' %}">Șterge Tabletă</a><br>#}
+{#            <a href="{% url 'cautare_tableta' %}">Caută Tabletă</a><br>#}
+{#            <a href="{% url 'modificare_tableta' %}">Modifică Tabletă</a>#}
+{#        </div>#}
+    </div>
+</main>
 </body>
 </html>

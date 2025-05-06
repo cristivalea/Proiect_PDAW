@@ -91,15 +91,28 @@ from django.shortcuts import render, redirect
 from .forms import LaptopForm
 
 
-
 def adaugare_laptop(request):
     if request.method == 'POST':
         form = LaptopForm(request.POST)
         if form.is_valid():
-            form.save()  # Salvează laptopul în tabela laptopuri
-            return redirect('admin-dashboard')  # După ce salvezi, redirecționează spre dashboard
+            laptop = form.save(commit=False)  # nu salva încă
+            laptop.nota_produs = 0  # Default - de exemplu 0
+            laptop.save()  # acum salvează
+            return redirect('admin_dashboard')
     else:
         form = LaptopForm()
 
     return render(request, 'shop/adaugare_laptop.html', {'form': form})
 
+from django.shortcuts import render
+from .models import Laptop
+
+def cautare_laptop(request):
+    marca = request.POST.get('brand', '').strip()
+
+    if marca:
+        laptopuri = Laptop.objects.filter(brand=marca)  # Căutare insensibilă la majuscule/minuscule
+    else:
+        laptopuri = []
+
+    return render(request, 'shop/cautare_laptop.html', {'laptopuri': laptopuri, 'marca': marca})
