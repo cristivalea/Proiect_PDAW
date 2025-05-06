@@ -140,6 +140,64 @@
         .results tr:hover {
             background-color: #f1f1f1;
         }
+
+        .select-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .select-btn:hover {
+            background-color: #45a049;
+        }
+
+        .selected {
+            background-color: #e6f7ff;
+        }
+
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #0b7dda;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #da190b;
+        }
+
+        .no-results {
+            color: red;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
     </style>
 </head>
 <body>
@@ -151,58 +209,115 @@
         </div>
     </header>
 
-    <nav>
-        <a href="#">Dashboard</a>
-        <a href="#">Adaugă Laptop</a>
-        <a href="#">Adaugă Telefon</a>
-        <a href="#">Adaugă Tabletă</a>
-    </nav>
 
     <main>
         <h1>Căutare Laptop după Marca</h1>
 
-        <form method="post" class="search-form">
+        <form method="post" class="search-form" id="searchForm">
             {% csrf_token %}
-            <input type="text" id="marca" name="marca" placeholder="Introdu marca" required>
+            <input type="text" id="marca" name="marca" placeholder="Introdu marca" required value="{{ marca|default:'' }}">
             <button type="submit">Căutare</button>
         </form>
 
-      {% if laptopuri %}
-    <div class="results">
-        <h2>Rezultate Căutare</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Serie</th>
-                    <th>Model</th>
-                    <th>Preț</th>
-                    <th>Memorie</th>
-                    <th>Procesor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for laptop in laptopuri %}
+        {% if laptopuri %}
+        <div class="results">
+            <h2>Rezultate Căutare</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ laptop.serielaptop }}</td>
-                        <td>{{ laptop.nume }}</td>
-                        <td>{{ laptop.pret }} lei</td>
-                        <td>{{ laptop.memorie_ram }} GB</td>
-                        <td>{{ laptop.procesor }}</td>
+                        <th>Selectare</th>
+                        <th>Serie</th>
+                        <th>Model</th>
+                        <th>Preț</th>
+                        <th>Memorie</th>
+                        <th>Procesor</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-{% else %}
-    <p style="color: red;">Nu s-au găsit laptopuri pentru marca {{ marca }}!</p>
-{% endif %}
+                </thead>
+                <tbody>
+                    {% for laptop in laptopuri %}
+                        <tr id="row-{{ laptop.serielaptop }}" onclick="selectRow('{{ laptop.serielaptop }}')">
+                            <td><button class="select-btn" onclick="selectRow('{{ laptop.serielaptop }}'); return false;">Selectează</button></td>
+                            <td>{{ laptop.serielaptop }}</td>
+                            <td>{{ laptop.nume }}</td>
+                            <td>{{ laptop.pret }} lei</td>
+                            <td>{{ laptop.memorie_ram }} GB</td>
+                            <td>{{ laptop.procesor }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-
-        {% if not laptopuri %}
-            {% if marca %}
-                <p style="color: red;">Nu s-au găsit laptopuri pentru marca {{ marca }}!</p>
-            {% endif %}
+            <div class="action-buttons" id="actionButtons" style="display: none;">
+                <button class="action-btn edit-btn" onclick="editSelected()">Editează</button>
+                <button class="action-btn delete-btn" onclick="deleteSelected()">Șterge</button>
+            </div>
+        </div>
+        {% elif marca %}
+            <p class="no-results">Nu s-au găsit laptopuri pentru marca "{{ marca }}"!</p>
         {% endif %}
     </main>
+
+    <script>
+        let selectedLaptop = null;
+
+        function selectRow(serial) {
+            // Remove selection from all rows
+            document.querySelectorAll('tbody tr').forEach(row => {
+                row.classList.remove('selected');
+            });
+
+            // Add selection to clicked row
+            const row = document.getElementById(`row-${serial}`);
+            row.classList.add('selected');
+
+            // Update selected laptop
+            selectedLaptop = serial;
+
+            // Show action buttons
+            document.getElementById('actionButtons').style.display = 'flex';
+        }
+
+        function editSelected() {
+            if (selectedLaptop) {
+                // Redirect to edit page with the selected laptop's serial
+                window.location.href = `/edit-laptop/${selectedLaptop}/`;
+            } else {
+                alert('Selectați un laptop pentru editare!');
+            }
+        }
+
+        function deleteSelected() {
+            if (selectedLaptop) {
+                if (confirm(`Sunteți sigur că doriți să ștergeți laptopul cu seria ${selectedLaptop}?`)) {
+                    // Submit a form to delete the laptop
+                    const form = document.createElement('form');
+                    form.method = 'post';
+                    form.action = '/delete-laptop/';
+
+                    const csrf = document.createElement('input');
+                    csrf.type = 'hidden';
+                    csrf.name = 'csrfmiddlewaretoken';
+                    csrf.value = document.querySelector('#searchForm input[name="csrfmiddlewaretoken"]').value;
+                    form.appendChild(csrf);
+
+                    const serialInput = document.createElement('input');
+                    serialInput.type = 'hidden';
+                    serialInput.name = 'serielaptop';
+                    serialInput.value = selectedLaptop;
+                    form.appendChild(serialInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            } else {
+                alert('Selectați un laptop pentru ștergere!');
+            }
+        }
+
+        // Auto-focus search input on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('marca').focus();
+        });
+    </script>
 </body>
 </html>

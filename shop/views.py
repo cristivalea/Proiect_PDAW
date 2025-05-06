@@ -104,15 +104,55 @@ def adaugare_laptop(request):
 
     return render(request, 'shop/adaugare_laptop.html', {'form': form})
 
+
 from django.shortcuts import render
-from .models import Laptop
+from .models import Laptop  # Numele modelului trebuie să corespundă cu cel din models.py
+
 
 def cautare_laptop(request):
-    marca = request.POST.get('brand', '').strip()
+    laptopuri = None
+    marca = None
 
-    if marca:
-        laptopuri = Laptop.objects.filter(brand=marca)  # Căutare insensibilă la majuscule/minuscule
+    if request.method == 'POST':
+        marca = request.POST.get('marca', '').strip()
+        if marca:
+            # Căutăm atât în Brand cât și în Model
+            laptopuri = Laptop.objects.filter(brand__icontains=marca) | Laptop.objects.filter(
+                model__icontains=marca)
+
+    return render(request, 'shop/cautare_laptop.html', {
+        'laptopuri': laptopuri,
+        'marca': marca
+    })
+
+from django.shortcuts import redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from .models import Laptop
+
+@csrf_exempt  # doar temporar, dacă nu funcționează cu tokenul CSRF, dar e mai bine să-l păstrezi în formular!
+def delete_laptop(request):
+    if request.method == "POST":
+        serial = request.POST.get("serielaptop")
+        laptop = get_object_or_404(Laptop, serielaptop=serial)
+        laptop.delete()
+        return redirect('/admin-dashboard/cautare_laptop/')
     else:
-        laptopuri = []
+        return redirect('/admin-dashboard/cautare_laptop/')
 
-    return render(request, 'shop/cautare_laptop.html', {'laptopuri': laptopuri, 'marca': marca})
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Laptop
+
+def edit_laptop(request, serielaptop):
+    laptop = get_object_or_404(Laptop, serielaptop=serielaptop)
+
+    if request.method == 'POST':
+        laptop.nume = request.POST.get('nume')
+        laptop.pret = request.POST.get('pret')
+        laptop.memorie_ram = request.POST.get('memorie_ram')
+        laptop.procesor = request.POST.get('procesor')
+        # Adaugă aici și alte câmpuri relevante
+
+        laptop.save()
+        return redirect('/admin-dashboard/cautare_laptop/')  # Redirect după salvare
+
+    return render(request, 'shop/edit-laptop.html', {'laptop': laptop})
