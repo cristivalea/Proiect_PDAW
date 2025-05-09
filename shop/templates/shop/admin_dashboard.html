@@ -162,12 +162,12 @@
         </div>
     </header>
 
-    <nav>
-        <a href="#">Dashboard</a>
-        <a href="#">Adaugă Laptop</a>
-        <a href="#">Adaugă Telefon</a>
-        <a href="#">Adaugă Tabletă</a>
-    </nav>
+{#    <nav>#}
+{#        <a href="#">Dashboard</a>#}
+{#        <a href="#">Adaugă Laptop</a>#}
+{#        <a href="#">Adaugă Telefon</a>#}
+{#        <a href="#">Adaugă Tabletă</a>#}
+{#    </nav>#}
 
     <main>
     <h1>Zona de administrare</h1>
@@ -191,14 +191,14 @@
 {#            <a href="{% url 'modificare_telefon' %}">Modifică Telefon</a>#}
 {#        </div>#}
 
-{#        <!-- Meniu Tablete -->#}
-{#        <div class="menu-item">#}
-{#            <i class="fas fa-tablet-alt"></i><br><strong>Tablete</strong><br><br>#}
-{#            <a href="{% url 'adaugare_tableta' %}">Adaugă Tabletă</a><br>#}
+        <!-- Meniu Tablete -->
+        <div class="menu-item">
+            <i class="fas fa-tablet-alt"></i><br><strong>Tablete</strong><br><br>
+            <a href="{% url 'adauga_tableta' %}">Adaugă Tabletă</a><br>
 {#            <a href="{% url 'stergere_tableta' %}">Șterge Tabletă</a><br>#}
-{#            <a href="{% url 'cautare_tableta' %}">Caută Tabletă</a><br>#}
+            <a href="{% url 'cautare_tableta' %}">Caută Tabletă</a><br>
 {#            <a href="{% url 'modificare_tableta' %}">Modifică Tabletă</a>#}
-{#        </div>#}
+        </div>
     </div>
 </main>
 </body>

@@ -12,4 +12,9 @@ urlpatterns = [
     path('admin-dashboard/cautare_laptop/', views.cautare_laptop, name='cautare_laptop'),
     path('delete-laptop/', views.delete_laptop, name='delete_laptop'),
     path('edit-laptop/<str:serielaptop>/', views.edit_laptop, name='edit_laptop'),
+
+    path('admin-dashboard/adauga_tableta/', views.adauga_tableta, name='adauga_tableta'),
+    path('admin-dashboard/cautare_tableta/', views.cautare_tableta, name='cautare_tableta'),
+    path('edit_tableta/<str:serietableta>/', views.edit_tableta, name='edit_tableta'),
+    path('delete_tableta/', views.delete_tableta, name='delete_tableta'),
 ]

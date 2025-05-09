@@ -22,5 +22,10 @@ class LaptopForm(forms.ModelForm):
 
     class Meta:
         model = Laptop
-        exclude = ['nota_produs']  # ascundem nota
+        exclude = ['nota_produs']
 
+from .models import Tableta
+class TabletaForm(forms.ModelForm):
+    class Meta:
+        model = Tableta
+        exclude = ['NotaProdus']

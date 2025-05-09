@@ -156,3 +156,74 @@ def edit_laptop(request, serielaptop):
         return redirect('/admin-dashboard/cautare_laptop/')  # Redirect după salvare
 
     return render(request, 'shop/edit-laptop.html', {'laptop': laptop})
+
+# shop/views.py
+from django.shortcuts import render, redirect
+from .forms import TabletaForm
+
+def adauga_tableta(request):
+    if request.method == 'POST':
+        form = TabletaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adauga_tableta')  # sau pagina de listare
+    else:
+        form = TabletaForm()
+    return render(request, 'shop/adauga_tableta.html', {'form': form})
+
+from .models import Tableta
+def cautare_tableta(request):
+    tablete = None
+    marca = None
+
+    if request.method == 'POST':
+        marca = request.POST.get('marca', '').strip()
+        if marca:
+            # Căutăm atât în Brand cât și în Model
+            tablete = Tableta.objects.filter(Brand__icontains=marca) | Tableta.objects.filter(Model__icontains=marca)
+
+    return render(request, 'shop/cautare_tableta.html', {
+        'tablete': tablete,
+        'marca': marca
+    })
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Tableta
+
+def edit_tableta(request, serietableta):
+    tableta = get_object_or_404(Tableta, SerieTableta=serietableta)
+
+    if request.method == 'POST':
+        tableta.SistemOperare = request.POST.get('SistemOperare')
+        tableta.Brand = request.POST.get('Brand')
+        tableta.Model = request.POST.get('Model')
+        tableta.CapacitateRAM = request.POST.get('CapacitateRAM')
+        tableta.CapacitateMemorie = request.POST.get('CapacitateMemorie')
+        tableta.Culoare = request.POST.get('Culoare')
+        tableta.Lungime = request.POST.get('Lungime')
+        tableta.Latime = request.POST.get('Latime')
+        tableta.UnitatiMasura = request.POST.get('UnitatiMasura')
+        tableta.Grosime = request.POST.get('Grosime')
+        tableta.Greutate = request.POST.get('Greutate')
+        tableta.CapacitateAcumulator = request.POST.get('CapacitateAcumulator')
+        tableta.Rezolutie = request.POST.get('Rezolutie')
+        tableta.Diagonala = request.POST.get('Diagonala')
+        tableta.Conectivitate = request.POST.get('Conectivitate')
+        tableta.ModelProcesor = request.POST.get('ModelProcesor')
+        tableta.pret = request.POST.get('pret')
+        tableta.Disponibilitate = request.POST.get('Disponibilitate')
+        tableta.OptiuneLivrare = request.POST.get('OptiuneLivrare')
+
+        tableta.save()
+        return redirect('/admin-dashboard/cautare_tableta/')
+
+    return render(request, 'shop/edit_tableta.html', {'tableta': tableta})
+
+def delete_tableta(request):
+    if request.method == "POST":
+        serial = request.POST.get("SerieTableta")
+        tableta = get_object_or_404(Tableta, SerieTableta=serial)
+        tableta.delete()
+        return redirect('/admin-dashboard/cautare_tableta/')
+    else:
+        return redirect('/admin-dashboard/cautare_tableta/')

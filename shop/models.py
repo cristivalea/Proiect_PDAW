@@ -6,7 +6,7 @@ class Laptop(models.Model):
     model = models.CharField(max_length=50)
     tiplaptop = models.CharField(max_length=50)
     procesor = models.CharField(max_length=50)
-    memorie_ram = models.IntegerField(db_column='MemorieRAM')  # <<<<< AICI E SECRETUL
+    memorie_ram = models.IntegerField(db_column='MemorieRAM')
     stocare = models.IntegerField()
     unitatimasura = models.CharField(max_length=50)
     gpu = models.CharField(max_length=50)
@@ -28,32 +28,34 @@ class Laptop(models.Model):
         return f"{self.brand} {self.model} - {self.pret} RON"
 
 
+
 class Tableta(models.Model):
-    serietableta = models.CharField(max_length=50, primary_key=True, db_column='SerieTableta')
-    sistem_operare = models.CharField(max_length=50, db_column='SistemOperare')
-    brand = models.CharField(max_length=50)
-    model = models.CharField(max_length=50)
-    capacitate_ram = models.CharField(max_length=50, db_column='CapacitateRAM')
-    capacitate_memorie = models.CharField(max_length=50, db_column='CapacitateMemorie')
-    culoare = models.CharField(max_length=50)
-    lungime = models.IntegerField()
-    latime = models.IntegerField()
-    unitati_masura = models.CharField(max_length=20, db_column='UnitatiMasura')
-    grosime = models.IntegerField()
-    greutate = models.IntegerField()
-    capacitate_acumulator = models.IntegerField(db_column='CapacitateAcumulator')
-    rezolutie = models.IntegerField()
-    diagonala = models.IntegerField()
-    conectivitate = models.CharField(max_length=20)
-    model_procesor = models.CharField(max_length=50, db_column='ModelProcesor')
-    pret = models.IntegerField(null=True)
-    nota_produs = models.FloatField(null=True, db_column='NotaProdus')
-    disponibilitate = models.CharField(max_length=100, null=True)
-    optiune_livrare = models.CharField(max_length=100, null=True, db_column='OptiuneLivrare')
+    SerieTableta = models.CharField(primary_key=True, max_length=50)
+    SistemOperare = models.CharField(max_length=50)
+    Brand = models.CharField(max_length=50)
+    Model = models.CharField(max_length=50)
+    CapacitateRAM = models.CharField(max_length=50)
+    CapacitateMemorie = models.CharField(max_length=50)
+    Culoare = models.CharField(max_length=50)
+    Lungime = models.IntegerField()
+    Latime = models.IntegerField()
+    UnitatiMasura = models.CharField(max_length=20)
+    Grosime = models.IntegerField()
+    Greutate = models.IntegerField()
+    CapacitateAcumulator = models.IntegerField()
+    Rezolutie = models.IntegerField()
+    Diagonala = models.IntegerField()
+    Conectivitate = models.CharField(max_length=20)
+    ModelProcesor = models.CharField(max_length=50)
+    pret = models.IntegerField(null=True, blank=True)
+    NotaProdus = models.FloatField(null=True, blank=True)
+    Disponibilitate = models.CharField(max_length=100, null=True, blank=True)
+    OptiuneLivrare = models.CharField(max_length=100, null=True, blank=True)
+
 
     class Meta:
         db_table = 'tablete'
 
     def __str__(self):
-        return f"{self.brand} {self.model} - {self.pret} RON"
+        return f"{self.Brand} {self.Model}"
 
