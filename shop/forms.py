@@ -29,3 +29,9 @@ class TabletaForm(forms.ModelForm):
     class Meta:
         model = Tableta
         exclude = ['NotaProdus']
+
+from .models import Telefon
+class TelefonForm(forms.ModelForm):
+    class Meta:
+        model = Telefon
+        exclude = ['NotaProdus']

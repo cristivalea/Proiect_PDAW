@@ -59,3 +59,28 @@ class Tableta(models.Model):
     def __str__(self):
         return f"{self.Brand} {self.Model}"
 
+class Telefon(models.Model):
+    SerieTelefon = models.CharField(max_length=50, primary_key=True, verbose_name='Cheie primară')
+    SistemOperare = models.CharField(max_length=50)
+    Brand = models.CharField(max_length=50)
+    Model = models.CharField(max_length=50)
+    CapacitateRAM = models.IntegerField()
+    CapacitateMemorie = models.IntegerField()
+    Culoare = models.CharField(max_length=50)
+    Lungime = models.IntegerField()
+    Latime = models.IntegerField()
+    Grosime = models.IntegerField()
+    Diagonala = models.FloatField()
+    Greutate = models.FloatField()
+    CapacitateAcumulator = models.IntegerField()
+    Material = models.CharField(max_length=50)
+    Rezolutie = models.CharField(max_length=50)
+    pret = models.IntegerField(null=True, blank=True)
+    NotaProdus = models.FloatField(null=True, blank=True)
+    Disponibilitate = models.CharField(max_length=100, null=True, blank=True)
+    OptiuneLivrare = models.CharField(max_length=100, null=True, blank=True)
+
+    class Meta:
+        db_table = 'telefoane'
+    def __str__(self):
+        return f"{self.Brand} {self.Model} ({self.SerieTelefon})"

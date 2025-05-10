@@ -17,4 +17,6 @@ urlpatterns = [
     path('admin-dashboard/cautare_tableta/', views.cautare_tableta, name='cautare_tableta'),
     path('edit_tableta/<str:serietableta>/', views.edit_tableta, name='edit_tableta'),
     path('delete_tableta/', views.delete_tableta, name='delete_tableta'),
+
+    path('admin-dashboard/adaugare_telefoan/', views.adaugare_telefon, name='adaugare_telefon'),
 ]

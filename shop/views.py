@@ -29,7 +29,8 @@ def cart(request):
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, TelefonForm
+
 
 def register(request):
     if request.method == 'POST':
@@ -227,3 +228,13 @@ def delete_tableta(request):
         return redirect('/admin-dashboard/cautare_tableta/')
     else:
         return redirect('/admin-dashboard/cautare_tableta/')
+
+def adaugare_telefon(request):
+    if request.method == 'POST':
+        form = TelefonForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adaugare_telefon')
+    else:
+        form = TelefonForm()
+    return render(request, 'shop/adaugare_telefon.html', {'form': form})
