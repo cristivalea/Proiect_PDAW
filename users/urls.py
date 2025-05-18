@@ -8,5 +8,6 @@ urlpatterns = [
     path('produs/<str:serielaptop>/', views.product_detail, name='product_detail'),  # Detalii despre un laptop
     path('cart/', views.cart, name='cart'),  # Coșul de cumpărături (temporar simplu)
     path('register/', views.register, name='register'),
-    path('login/', views.login_view(name='shop/login.html'), name='login'),
+    path('login/', views.login_view, name='login'),
+    #path('profil/', views.profil_utilizator, name='profil_utilizator'),
 ]

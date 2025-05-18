@@ -19,4 +19,11 @@ urlpatterns = [
     path('delete_tableta/', views.delete_tableta, name='delete_tableta'),
 
     path('admin-dashboard/adaugare_telefoan/', views.adaugare_telefon, name='adaugare_telefon'),
+    path('admin-dashboard/cautare_telefon/', views.cautare_telefon, name='cautare_telefon'),
+    path('edit_telefon/<str:serie>/', views.editare_telefon, name='edit_telefon'),
+    path('delete_telefon/', views.delete_telefon, name='delete_telefon'),
+
+    path('admin-dashboard/cautare_utilizatori', views.cauta_utilizatori, name='cautare_utilizatori'),
+    path('admin-dashboard/sterge_utilizator/<int:user_id>/', views.sterge_utilizator, name='sterge_utilizator'),
+    path('admin-dashboard/editare_utilizator/<int:user_id>/', views.editare_utilizator, name='editare_utilizator'),
 ]

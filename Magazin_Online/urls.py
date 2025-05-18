@@ -1,11 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
-from shop import views
-
 
 urlpatterns = [
-    path('', views.index, name='/'),
-    path('login/', views.login_view, name='login'),
-    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
-    path('', include('shop.urls')),
+    path('admin/', admin.site.urls),
+    path('', include('shop.urls')),  # Ruta principală către aplicația "shop"
+   # path('utilizator/', include('users.urls')),  # Rutele pentru utilizatori
 ]

@@ -187,7 +187,7 @@
             <i class="fas fa-mobile-alt"></i><br><strong>Telefoane</strong><br><br>
             <a href="{% url 'adaugare_telefon' %}">Adaugă Telefon</a><br>
 {#            <a href="{% url 'stergere_telefon' %}">Șterge Telefon</a><br>#}
-{#            <a href="{% url 'cautare_telefon' %}">Caută Telefon</a><br>#}
+           <a href="{% url 'cautare_telefon' %}">Caută Telefon</a><br>
 {#            <a href="{% url 'modificare_telefon' %}">Modifică Telefon</a>#}
        </div>
 
@@ -199,6 +199,12 @@
             <a href="{% url 'cautare_tableta' %}">Caută Tabletă</a><br>
 {#            <a href="{% url 'modificare_tableta' %}">Modifică Tabletă</a>#}
         </div>
+
+        <div class="menu-item">
+            <a href="{% url 'cautare_utilizatori' %}">🔍 Caută Utilizatori</a>
+        </div>
+
+
     </div>
 </main>
 </body>

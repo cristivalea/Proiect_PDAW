@@ -238,3 +238,119 @@ def adaugare_telefon(request):
     else:
         form = TelefonForm()
     return render(request, 'shop/adaugare_telefon.html', {'form': form})
+
+from .models import Telefon
+def cautare_telefon(request):
+    telefon = None
+    marca = None
+
+    if request.method == 'POST':
+        marca = request.POST.get('marca', '').strip()
+        if marca:
+            # Căutăm atât în Brand cât și în Model
+            telefon = Telefon.objects.filter(Brand__icontains=marca) | Telefon.objects.filter(Model__icontains=marca)
+
+    return render(request, 'shop/cautare_telefon.html', {
+        'telefoane': telefon,
+        'marca': marca
+    })
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Telefon
+
+def editare_telefon(request, serie):
+    telefon = get_object_or_404(Telefon, SerieTelefon=serie)
+
+    if request.method == 'POST':
+        telefon.SistemOperare = request.POST['SistemOperare']
+        telefon.Brand = request.POST['Brand']
+        telefon.Model = request.POST['Model']
+        telefon.CapacitateRAM = request.POST['CapacitateRAM']
+        telefon.CapacitateMemorie = request.POST['CapacitateMemorie']
+        telefon.Culoare = request.POST['Culoare']
+        telefon.Lungime = request.POST['Lungime']
+        telefon.Latime = request.POST['Latime']
+        telefon.Grosime = request.POST['Grosime']
+        telefon.Diagonala = request.POST['Diagonala']
+        telefon.Greutate = request.POST['Greutate']
+        telefon.CapacitateAcumulator = request.POST['CapacitateAcumulator']
+        telefon.Material = request.POST['Material']
+        telefon.Rezolutie = request.POST['Rezolutie']
+        telefon.pret = request.POST['pret']
+        telefon.NotaProdus = request.POST.get('NotaProdus') or None
+        telefon.Disponibilitate = request.POST.get('Disponibilitate')
+        telefon.OptiuneLivrare = request.POST.get('OptiuneLivrare')
+        telefon.save()
+
+        return redirect('/admin-dashboard/cautare_telefon/')
+
+    return render(request, 'shop/edit_telefon.html', {
+        'telefon': telefon
+    })
+
+def delete_telefon(request):
+    if request.method == "POST":
+        serial = request.POST.get("SerieTelefon")
+        telefon = get_object_or_404(Telefon, SerieTelefon=serial)
+        telefon.delete()
+        return redirect('/admin-dashboard/cautare_telefon/')
+    else:
+        return redirect('/admin-dashboard/cautare_telefon/')
+
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.db.models import Q
+
+def cauta_utilizatori(request):
+    query = request.GET.get('q', '')
+    utilizatori = []
+
+    if query:
+        utilizatori = User.objects.filter(
+            Q(username__icontains=query) |
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(email__icontains=query)
+        )
+
+    context = {
+        'query': query,
+        'utilizatori': utilizatori
+    }
+    return render(request, 'shop/cautare_utilizatori.html', context)
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
+from django.urls import reverse
+
+@user_passes_test(lambda u: u.is_staff)  # Doar staff-ul poate șterge
+def sterge_utilizator(request, user_id):
+    utilizator = get_object_or_404(User, id=user_id)
+    if request.user == utilizator:
+        messages.error(request, "Nu poți șterge propriul cont.")
+    else:
+        utilizator.delete()
+        messages.success(request, f"Utilizatorul '{utilizator.username}' a fost șters cu succes.")
+    return redirect(reverse('cautare_utilizatori'))
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.models import User
+from django.urls import reverse
+
+def editare_utilizator(request, user_id):
+    utilizator = get_object_or_404(User, id=user_id)
+
+    if request.method == 'POST':
+        utilizator.first_name = request.POST.get('first_name')
+        utilizator.last_name = request.POST.get('last_name')
+        utilizator.email = request.POST.get('email')
+        utilizator.username = request.POST.get('username')
+        utilizator.is_staff = True if request.POST.get('is_staff') == 'on' else False
+        utilizator.is_active = True if request.POST.get('is_active') == 'on' else False
+        utilizator.save()
+        return redirect(reverse('cautare_utilizatori'))
+
+    return render(request, 'shop/editare_utilizator.html', {'utilizator': utilizator})
+
