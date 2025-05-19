@@ -354,3 +354,20 @@ def editare_utilizator(request, user_id):
 
     return render(request, 'shop/editare_utilizator.html', {'utilizator': utilizator})
 
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+
+def custom_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            if user.is_superuser:
+                return redirect('/admin/')
+            else:
+                return redirect('index')  # numele rutei pentru magazin
+        else:
+            return render(request, 'shop/login.html', {'error': 'Date invalide'})
+    return render(request, 'shop/login.html')
