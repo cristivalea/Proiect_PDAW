@@ -26,4 +26,7 @@ urlpatterns = [
     path('admin-dashboard/cautare_utilizatori', views.cauta_utilizatori, name='cautare_utilizatori'),
     path('admin-dashboard/sterge_utilizator/<int:user_id>/', views.sterge_utilizator, name='sterge_utilizator'),
     path('admin-dashboard/editare_utilizator/<int:user_id>/', views.editare_utilizator, name='editare_utilizator'),
+
+    path('', views.index, name='index'),
+    path('login/', views.custom_login, name='login'),
 ]
