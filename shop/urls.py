@@ -1,9 +1,6 @@
-from django.contrib.auth.views import LogoutView
 from django.urls import path
 from shop import views
 from django.contrib.auth import views as auth_views
-
-from shop.views import CustomLoginView
 
 urlpatterns = [
     path('', views.index, name='index'),  # Pagina principală cu lista de laptopuri
@@ -29,19 +26,4 @@ urlpatterns = [
     path('admin-dashboard/cautare_utilizatori', views.cauta_utilizatori, name='cautare_utilizatori'),
     path('admin-dashboard/sterge_utilizator/<int:user_id>/', views.sterge_utilizator, name='sterge_utilizator'),
     path('admin-dashboard/editare_utilizator/<int:user_id>/', views.editare_utilizator, name='editare_utilizator'),
-
-    path('', views.index, name='index'),
-    path('login/', views.custom_login, name='login'),
-    path('laptopuri/', views.lista_laptopuri, name='laptopuri'),
-    path('laptopuri/<str:serielaptop>/', views.detalii_laptop, name='detalii_laptop'),
-    path('tablete/', views.lista_tablete, name='tablete'),
-    path('tablete/<str:serietableta>/', views.detalii_tableta, name='detalii_tableta'),
-    path('login/', CustomLoginView.as_view(), name='login'),
-    path('profil/', views.user_profile, name='user_profile'),
-    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
-    path("telefoane/", views.lista_telefoane, name="lista_telefoane"),
-    path("telefoane/<str:serie>/", views.detalii_telefon, name="detalii_telefon"),
-    path('cos/', views.view_cart, name='view_cart'),
-    path('adauga-in-cos/<str:product_type>/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
-    path('sterge-din-cos/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
 ]
