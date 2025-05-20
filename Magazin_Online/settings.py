@@ -111,3 +111,6 @@ SESSION_COOKIE_AGE = 1209600  # 2 weeks
 # Sesiunea să nu expire când închizi browserul
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'  # opțional: unde să redirecționeze după autentificare
+

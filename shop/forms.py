@@ -35,3 +35,10 @@ class TelefonForm(forms.ModelForm):
     class Meta:
         model = Telefon
         exclude = ['NotaProdus']
+
+
+from django import forms
+
+class OrderForm(forms.Form):
+    payment_method = forms.ChoiceField(choices=[('card', 'Card'), ('ramburs', 'Ramburs')])
+    shipping_address = forms.CharField(widget=forms.Textarea)
